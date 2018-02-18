@@ -1,6 +1,7 @@
 using Terminal.Gui;
 using System;
 using Mono.Terminal;
+using static Terminal.Gui.Terminal;
 
 class Demo {
 	class Box10x : View {
@@ -155,19 +156,19 @@ class Demo {
 		var tframe = top.Frame;
 
 		var win = new Window (new Rect (0, 1, tframe.Width, tframe.Height-1), "Hello");
-		var menu = new MenuBar (new MenuBarItem [] {
-			new MenuBarItem ("_File", new MenuItem [] {
-				new MenuItem ("_New", "Creates new file", NewFile),
-				new MenuItem ("_Open", "", null),
-				new MenuItem ("_Close", "", () => Close ()),
-				new MenuItem ("_Quit", "", () => { if (Quit ()) top.Running = false; })
-			}),
-			new MenuBarItem ("_Edit", new MenuItem [] {
-				new MenuItem ("_Copy", "", null),
-				new MenuItem ("C_ut", "", null),
-				new MenuItem ("_Paste", "", null)
-			})
-		});
+		var menu = MenuBar (
+			MenuBarItem ("_File", 
+				MenuItem ("_New", "Creates new file", NewFile),
+				MenuItem ("_Open"),
+				MenuItem ("_Close", "", () => Close ()),
+				MenuItem ("_Quit", "", () => { if (Quit ()) top.Running = false; })
+			),
+			MenuBarItem ("_Edit", 
+				MenuItem ("_Copy"),
+				MenuItem ("C_ut"),
+				MenuItem ("_Paste")
+			)
+		);
 
 		ShowEntries (win);
 		int count = 0;
