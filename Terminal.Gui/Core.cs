@@ -1707,17 +1707,20 @@ namespace Terminal.Gui {
 
 		static void ProcessKeyEvent (KeyEvent ke)
 		{
-			foreach (var topLevel in toplevels) {
+			// Avoid throwing when top level views are modified
+			var copyOfTopLevelViews = toplevels.ToList();
+
+			foreach (var topLevel in copyOfTopLevelViews) {
 				if (topLevel.ProcessHotKey (ke))
 					return;
 			}
 
-			foreach (var topLevel in toplevels) {
+			foreach (var topLevel in copyOfTopLevelViews) {
 				if (topLevel.ProcessKey (ke))
 					return;
 			}
 
-			foreach (var topLevel in toplevels) {
+			foreach (var topLevel in copyOfTopLevelViews) {
 				// Process the key normally
 				if (topLevel.ProcessColdKey (ke))
 					return;
